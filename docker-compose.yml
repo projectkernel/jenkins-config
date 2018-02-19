@@ -1,0 +1,27 @@
+version: '3.6'
+ 
+services:
+  main:
+    image: danielspeixoto/modifiedjenkins
+    ports:
+      - 8080:8080
+      - 50000:50000
+    secrets:
+      - jenkins-user
+      - jenkins-pass
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks: 
+      - host
+ 
+secrets:
+  jenkins-user:
+    external: true
+  jenkins-pass:
+    external: true
+
+volumes:
+  jenkins_home:
+
+networks: 
+  host:
