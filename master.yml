@@ -1,0 +1,8 @@
+---
+  - name: Init
+    hosts: masters
+    remote_user: ec2-user
+    gather_facts: False
+    tasks:
+      - name: Write to file
+        command: echo 1 > test.txt
