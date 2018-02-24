@@ -1,0 +1,33 @@
+- name: Run using a project directory
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  become: true
+  roles:
+    - role: geerlingguy.jenkins
+  tasks:
+
+    # - name: "Docker Swarm"
+    #   apt: name=docker-swarm state=present
+
+    # - name: Init Swarm Cluster
+    #   shell: docker swarm init
+
+    - name: Create secret user
+      docker_secret:
+        name: jenkins-user
+        data: admin
+        state: present
+
+    - name: Create secret pass
+      docker_secret:
+        name: jenkins-pass
+        data: adminpass
+        state: present
+
+    - naame: Start service
+      docker_service:
+        project_src: app
+        state: present
+
+  
