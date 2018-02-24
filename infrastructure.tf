@@ -9,4 +9,5 @@ resource "aws_instance" "jenkins" {
   provisioner "local-exec" {
     command = "echo ${aws_instance.jenkins.public_ip} > ip_address.txt"
   }
+  
 }

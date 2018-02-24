@@ -1,17 +1,37 @@
-- name: Run using a project directory
-  hosts: localhost
-  connection: local
-  gather_facts: no
+- name: Jenkins
+  hosts: all
   become: true
+
+  vars:
+    compose_path: /home/
+  
+  pre_tasks:
+    - name: Pip
+      apt: name=python-pip state=present
+
+    - name: Docker-py
+      pip:
+        name: docker
+    
+    - name: Copy compose file
+      copy:
+        force: yes
+        src: app/docker-compose.yml
+        dest: "{{ compose_path }}docker-compose.yml"
+
   roles:
-    - role: geerlingguy.jenkins
+    - role: geerlingguy.docker
+    - role: franklinkim.docker-compose
+
   tasks:
+    - name: Get docker info
+      shell: docker info
+      register: docker_info
+      changed_when: false
 
-    # - name: "Docker Swarm"
-    #   apt: name=docker-swarm state=present
-
-    # - name: Init Swarm Cluster
-    #   shell: docker swarm init
+    - name: Create primary swarm manager
+      shell: docker swarm init
+      when: "docker_info.stdout.find('Swarm: inactive') != -1"
 
     - name: Create secret user
       docker_secret:
@@ -25,9 +45,7 @@
         data: adminpass
         state: present
 
-    - naame: Start service
+    - name: Start service
       docker_service:
-        project_src: app
+        project_src: "{{ compose_path }}"
         state: present
-
-  
