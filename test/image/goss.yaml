@@ -1,0 +1,23 @@
+file:
+  /usr/share/jenkins/ref/init.groovy.d/security.groovy:
+    exists: true
+    mode: "0664"
+    owner: root
+    group: root
+  /usr/share/jenkins/ref/plugins.txt:
+    exists: true
+    mode: "0664"
+    owner: root
+    group: root
+package:
+  python:
+    installed: true
+    versions:
+    - 2.7.13-2
+http:
+  http://localhost:8080:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body: [Welcome to Jenkins!]

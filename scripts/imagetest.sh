@@ -1,0 +1,1 @@
+(cd test/image; dgoss run danielspeixoto/jenkins)

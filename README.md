@@ -8,3 +8,4 @@ vagrant
 terraform
 docker
 infratest > py test
+dgoss

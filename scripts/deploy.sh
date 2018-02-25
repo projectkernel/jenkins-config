@@ -1,10 +1,7 @@
-# Allows this host to SSH terraform created machines
-PUB_KEY=$(cat ~/.ssh/id_rsa.pub)
-terraform apply \
-    -var "host_pub_key=$PUB_KEY"
+terraform apply
 
-# Locate Machines
+# Provide inventory
 export ANSIBLE_HOSTS=provision/inventories/ec2.py
 export EC2_INI_PATH=provision/inventories/ec2.ini
 
-ansible -m ping tag_Name_jenkins
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook provision/playbook.yml -u ubuntu

@@ -1,7 +1,7 @@
 - name: Jenkins
   hosts: all
   become: true
-  
+
   pre_tasks:
     - name: Pip
       apt: name=python-pip state=present
@@ -9,6 +9,10 @@
     - name: Docker-py
       pip:
         name: docker
+
+    - name: Docker compose
+      pip:
+        name: docker-compose
 
   roles:
     - role: geerlingguy.docker
@@ -35,7 +39,12 @@
         data: adminpass
         state: present
 
+    - name: Copy Compose file
+      copy:
+        src: ../app/docker-compose.yml
+        dest: /home/docker-compose.yml
+      
     - name: Start service
       docker_service:
-        project_src: /vagrant/app/
+        project_src: ~/home/
         state: present
