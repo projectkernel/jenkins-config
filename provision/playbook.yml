@@ -1,9 +1,6 @@
 - name: Jenkins
   hosts: all
   become: true
-
-  vars:
-    compose_path: /home/
   
   pre_tasks:
     - name: Pip

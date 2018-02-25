@@ -2,6 +2,7 @@ import pytest
 
 @pytest.mark.parametrize("name, version", [
     ("python", "2.7"),
+    ("docker", "2")
 ])
 def test_packages(host, name, version):
     pkg = host.package(name)
