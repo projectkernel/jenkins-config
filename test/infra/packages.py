@@ -1,7 +1,6 @@
 import pytest
 
 @pytest.mark.parametrize("name, version", [
-    ("nginx", "1.6"),
     ("python", "2.7"),
 ])
 def test_packages(host, name, version):

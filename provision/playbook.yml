@@ -12,16 +12,9 @@
     - name: Docker-py
       pip:
         name: docker
-    
-    - name: Copy compose file
-      copy:
-        force: yes
-        src: app/docker-compose.yml
-        dest: "{{ compose_path }}docker-compose.yml"
 
   roles:
     - role: geerlingguy.docker
-    - role: franklinkim.docker-compose
 
   tasks:
     - name: Get docker info
@@ -47,5 +40,5 @@
 
     - name: Start service
       docker_service:
-        project_src: "{{ compose_path }}"
+        project_src: /vagrant/app/
         state: present

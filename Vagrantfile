@@ -17,8 +17,14 @@ Vagrant.configure("2") do |config|
     vb.memory = "512"
   end
 
+  config.vm.provision "docker" do |d|
+    d.build_image "/vagrant/app", 
+      args: "-t danielspeixoto/jenkins"
+  end
+  
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
     ansible.playbook = "playbook.yml"
   end
+  
 end
