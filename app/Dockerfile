@@ -1,6 +1,9 @@
 FROM jenkins/jenkins:lts
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+COPY log.properties ./log.properties
+
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false \
+    -Djava.util.logging.config.file=log.properties"
 
 # COPY https.pem /var/lib/jenkins/cert
 # COPY https.key /var/lib/jenkins/pk

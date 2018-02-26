@@ -29,7 +29,7 @@ resource "aws_instance" "jenkins" {
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   tags {
-    name = "jenkins"
+    Name = "jenkins"
   }
 
   connection {
