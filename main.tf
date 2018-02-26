@@ -22,11 +22,17 @@ resource "aws_security_group" "allow_all" {
   }
 }
 
+resource "aws_iam_instance_profile" "test_profile" {
+  name  = "test_profile"
+  role = "ec2max"
+}
+
 resource "aws_instance" "jenkins" {
   ami           = "ami-66506c1c"
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.jenkins.key_name}"
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
+  iam_instance_profile   = "${aws_iam_instance_profile.test_profile.name}"
 
   tags {
     Name = "jenkins"

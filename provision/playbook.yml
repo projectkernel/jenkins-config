@@ -16,12 +16,15 @@
 
   roles:
     - role: geerlingguy.docker
-
+    
   tasks:
     - name: Config docker
       copy: 
-        src: provision/files/daemon.json
+        src: files/daemon.json
         dest: /etc/docker/daemon.json
+
+    - name: Restart Docker
+      shell: systemctl restart docker
 
     - name: Get docker info
       shell: docker info
@@ -46,10 +49,10 @@
 
     - name: Copy Compose file
       copy:
-        src: app/docker-compose.yml
+        src: ../app/docker-compose.yml
         dest: /home/docker-compose.yml
       
     - name: Start service
       docker_service:
-        project_src: ~/home/
+        project_src: /home/
         state: present

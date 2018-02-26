@@ -1,7 +1,7 @@
 import pytest
 
 @pytest.mark.parametrize("name", [
-    ("~/docker-compose.yml"),
+    ("/home/docker-compose.yml"),
     ("/etc/docker/daemon.json")
 ])
 def test_compose_file(host, name):
