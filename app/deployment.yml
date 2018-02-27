@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 0.1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  selector:
+    matchLabels:
+      app: jenkins
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: danielspeixoto/jenkins:0.1.0
+        imagePullPolicy: "Always"
+        volumeMounts:
+        - name: jenkins-home
+          mountPath: "/var/jenkins_home/"
+        - name: config
+          mountPath: "~/config"
+          readOnly: true
+        ports:
+        - containerPort: 8080
+      volumes:
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: pv-claim
+      - name: config
+        secret:
+          secretName: jenkins-credentials

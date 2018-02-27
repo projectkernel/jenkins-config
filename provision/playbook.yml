@@ -26,15 +26,6 @@
     - name: Restart Docker
       shell: systemctl restart docker
 
-    - name: Get docker info
-      shell: docker info
-      register: docker_info
-      changed_when: false
-
-    - name: Create primary swarm manager
-      shell: docker swarm init
-      when: "docker_info.stdout.find('Swarm: inactive') != -1"
-
     - name: Create secret user
       docker_secret:
         name: jenkins-user
@@ -51,8 +42,3 @@
       copy:
         src: ../app/docker-compose.yml
         dest: /home/docker-compose.yml
-      
-    - name: Start service
-      docker_service:
-        project_src: /home/
-        state: present
