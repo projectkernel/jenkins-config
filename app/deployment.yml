@@ -9,7 +9,7 @@ spec:
     requests:
       storage: 0.1Gi
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: jenkins-deployment
@@ -27,18 +27,18 @@ spec:
       - name: jenkins
         image: danielspeixoto/jenkins:0.1.0
         imagePullPolicy: "Always"
-        volumeMounts:
-        - name: jenkins-home
-          mountPath: "/var/jenkins_home/"
-        - name: config
-          mountPath: "~/config"
-          readOnly: true
+        # volumeMounts:
+        # - name: jenkins-home
+        #   mountPath: "/var/jenkins_home/"
+        # - name: config
+        #   mountPath: "~/config"
+        #   readOnly: true
         ports:
         - containerPort: 8080
-      volumes:
-      - name: jenkins-home
-        persistentVolumeClaim:
-          claimName: pv-claim
-      - name: config
-        secret:
-          secretName: jenkins-credentials
+      # volumes:
+      # - name: jenkins-home
+      #   persistentVolumeClaim:
+      #     claimName: pv-claim
+      # - name: config
+      #   secret:
+      #     secretName: jenkins-credentials
