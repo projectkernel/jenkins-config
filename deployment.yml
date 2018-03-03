@@ -27,23 +27,22 @@ spec:
         fsGroup: 1000
       containers:
       - name: jenkins
-        # image: jenkins/jenkins:lts
-        image: danielspeixoto/jenkins:0.1.1
+        image: danielspeixoto/jenkins:0.1.0
         volumeMounts:
         - name: jenkins-home
           mountPath: "/var/jenkins_home/"
-        # - name: config
-        #   mountPath: "~/config"
-        #   readOnly: true
+        - name: config
+          mountPath: "~/config"
+          readOnly: true
         ports:
         - containerPort: 8080
       volumes:
       - name: jenkins-home
         persistentVolumeClaim:
           claimName: pv-claim
-      # - name: config
-      #   secret:
-      #     secretName: jenkins-credentials
+      - name: config
+        secret:
+          secretName: jenkins-credentials
 ---
 apiVersion: v1
 kind: Service
@@ -51,7 +50,6 @@ metadata:
   name: jenkins-service
 spec:
   type: LoadBalancer
-  # loadBalancerIP: "jenkins-ip"
   ports:
   - port: 8000
     targetPort: 8080
